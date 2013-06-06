@@ -10,7 +10,8 @@
   },
   "devDependencies": {
     "mocha": "~1.9.0",
-    "expect.js": "~0.2.0"
+    "expect.js": "~0.2.0",
+    "supertest": "~0.7.0"
   },
   "scripts": {
     "test": "NODE_PATH=lib NODE_ENV=test mocha"
