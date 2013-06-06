@@ -25,77 +25,42 @@ describe('an oauth2 server', function() {
   describe('with no configuration', function() {
 
     var server;
+    var req;
+    var res;
     beforeEach(function() {
       server = oauth2server();
-    });
-
-    it('should not recognize authorization_code grants', function(done) {
-      var token = server.token();
-      expect(server).to.be.an('object');
-
-      var self = this;
-      var req = new MockRequest();
-      req.body = { grant_type: 'authorization_code', code: 'abc123' };
-      
-      var res = new MockResponse();
+      req = new MockRequest();
+      res = new MockResponse();
       res.done = function() {
         done(new Error('should not be called'));
       }
+    });
 
-      function next(err) {
+    function unsupported_grant_type(done) {
+      return function(err) {
         expect(err).to.be.ok();
         expect(err.code).to.be.ok('unsupported_grant_type');
         expect(err.status).to.be(400);
         done();
       }
+    }
 
-      process.nextTick(function () {
-        token(req, res, next);
-      });
+    it('should not recognize authorization_code grants', function(done) {
+      var token = server.token();
+      req.body = { grant_type: 'authorization_code', code: 'abc123' };      
+      token(req, res, unsupported_grant_type(done));
     });
 
     it('should not recognize code grants', function(done) {
       var token = server.token();
-      expect(server).to.be.an('object');
-
-      var self = this;
-      var req = new MockRequest();
       req.body = { grant_type: 'code', code: 'abc123' };
-      
-      var res = new MockResponse();
-      res.done = function() {
-        done(new Error('should not be called'));
-      }
-
-      function next(err) {
-        done();
-      }
-
-      process.nextTick(function () {
-        token(req, res, next);
-      });
+      token(req, res, unsupported_grant_type(done));
     });
 
     it('should not recognize password grants', function(done) {
       var token = server.token();
-      expect(server).to.be.an('object');
-
-      var self = this;
-      var req = new MockRequest();
       req.body = { grant_type: 'password', code: 'abc123' };
-      
-      var res = new MockResponse();
-      res.done = function() {
-        done(new Error('should not be called'));
-      }
-
-      function next(err) {
-        done();
-      }
-
-      process.nextTick(function () {
-        token(req, res, next);
-      });
+      token(req, res, unsupported_grant_type(done));
     });
 
   });
