@@ -1,0 +1,22 @@
+{
+  "name": "blank",
+  "version": "0.1.0",
+  "main": "app.js",
+  "private": true,
+  "dependencies": {
+    "oauth2orize": "git+https://github.com/timshadel/oauth2orize.git",
+    "express": "~3.2.6",
+    "startup": "~0.1.12"
+  },
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "expect.js": "~0.2.0"
+  },
+  "scripts": {
+    "test": "NODE_PATH=lib NODE_ENV=test mocha"
+  },
+  "engines": {
+    "node": "~0.10.3",
+    "npm": "~1.2.17"
+  }
+}
