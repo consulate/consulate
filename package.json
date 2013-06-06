@@ -6,7 +6,11 @@
   "dependencies": {
     "oauth2orize": "git+https://github.com/timshadel/oauth2orize.git",
     "express": "~3.2.6",
-    "startup": "~0.1.12"
+    "startup": "~0.1.12",
+    "connect-ensure-login": "~0.1.1",
+    "passport-http": "~0.2.2",
+    "passport-oauth2-client-password": "~0.1.1",
+    "passport": "~0.1.17"
   },
   "devDependencies": {
     "mocha": "~1.9.0",

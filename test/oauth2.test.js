@@ -23,10 +23,8 @@ MockResponse.prototype.end = function(data, encoding) {
 describe('an oauth2 server', function() {
 
   describe('with no configuration', function() {
+    var server, req, res;
 
-    var server;
-    var req;
-    var res;
     beforeEach(function() {
       server = oauth2server();
       req = new MockRequest();
