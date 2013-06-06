@@ -27,4 +27,16 @@ describe("POST /token", function() {
       .expect(/access_token/, done);
   });
 
+  it("should issue an access_token to any request with client creds in the body", function(done) {
+    supertest(app)
+      .post("/token")
+      .send({ grant_type: 'password' })
+      .send({ username: 'user' })
+      .send({ password: 'pass' })
+      .send({ client_id: 'client' })
+      .send({ client_secret: 'secret' })
+      .expect(200)
+      .expect(/access_token/, done);
+  });
+
 });
