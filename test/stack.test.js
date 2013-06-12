@@ -16,10 +16,20 @@ describe("POST /token", function() {
       .expect(401, done);
   });
 
+  it("should require valid client credentials", function(done) {
+    supertest(app)
+      .post("/token")
+      .auth('evil', 'app')
+      .send({ grant_type: 'password' })
+      .send({ username: 'user' })
+      .send({ password: 'pass' })
+      .expect(401, done);
+  });
+
   it("should issue an access_token to any request with basic auth", function(done) {
     supertest(app)
       .post("/token")
-      .auth('client', 'secret')
+      .auth('client', 'super secret')
       .send({ grant_type: 'password' })
       .send({ username: 'user' })
       .send({ password: 'pass' })
@@ -34,7 +44,7 @@ describe("POST /token", function() {
       .send({ username: 'user' })
       .send({ password: 'pass' })
       .send({ client_id: 'client' })
-      .send({ client_secret: 'secret' })
+      .send({ client_secret: 'super secret' })
       .expect(200)
       .expect(/access_token/, done);
   });
