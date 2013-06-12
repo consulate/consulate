@@ -63,4 +63,38 @@ describe('an oauth2 server', function() {
 
   });
 
+  describe('with password exchange configuration', function() {
+    var server, req, res;
+
+    beforeEach(function() {
+      config = { exchange: { password: function(client, redirectURI, user, ares, done) {
+          done(null, 'bogus');
+      }}};
+      server = oauth2server(config);
+      req = new MockRequest();
+      res = new MockResponse();
+    });
+
+    function no_error(done) {
+      return function(err) {
+        done(new Error('should not be called: ' + err));
+      }
+    }
+
+    function access_token_issued(res, done) {
+      res.done = function() {
+        expect(res._data).to.be('{"access_token":"bogus","token_type":"bearer"}');
+        done();
+      }
+      return res;
+    }
+
+    it('should recognize password grants', function(done) {
+      var token = server.token();
+      req.body = { grant_type: 'password', username: 'user', password: 'pass' };
+      token(req, access_token_issued(res, done), no_error(done));
+    });
+
+  });
+
 });
