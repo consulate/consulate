@@ -1,5 +1,5 @@
 
-var oauth2server = require('../lib/oauth2')
+var oauth2server = require('../lib/auth/server')
   , expect = require('expect.js');
 
 function MockRequest() {
