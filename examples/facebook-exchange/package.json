@@ -1,0 +1,11 @@
+{
+  "name": "oauth-plugin-example",
+  "dependencies": {
+    "startup": "~0.1.12",
+    "envs": "~0.1.1",
+    "jade": "~0.31.2",
+    "find": "git://github.com/component/find",
+    "passport": "~0.1.17",
+    "passport-facebook": "~0.1.5"
+  }
+}
