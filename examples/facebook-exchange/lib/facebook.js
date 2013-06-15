@@ -2,21 +2,33 @@
  * Module dependencies
  */
 var passport = require('passport')
-  , FacebookStrategy = require('passport-facebook').Strategy
-  , env = require('envs')
-  , db = require('./db');
+  , FacebookStrategy = require('passport-facebook').Strategy;
 
-passport.use(new FacebookStrategy({
-  clientID: env('FACEBOOK_CLIENT_ID'),
-  clientSecret: env('FACEBOOK_CLIENT_SECRET'),
-  callbackURL: env('FACEBOOK_CALLBACK_URL', 'http://localhost:5000/auth/facebook')
-}, function(accessToken, refreshToken, profile, done) {
-  profile.accessToken = accessToken;
-  profile.refreshToken = refreshToken;
-  done(null, profile);
-}))
+/**
+ * Facebook Exchange Plugin
+ */
 
-module.exports = function() {
+exports = module.exports = function(options) {
+  var path = options.path || '/auth/facebook'
+    , getUserByFacebookOrCreate = options.getUserByFacebookOrCreate;
+
+  return function(app) {
+
+    passport.use(new FacebookStrategy({
+      clientID: options.clientID,
+      clientSecret: options.clientSecret,
+      callbackURL: options.callbackURL
+    }, function(accessToken, refreshToken, profile, done) {
+      profile.accessToken = accessToken;
+      profile.refreshToken = refreshToken;
+      done(null, profile);
+    }));
+
+    app.use(path, exports.login(getUserByFacebookOrCreate));
+  };
+};
+
+exports.login = function(getUserByFacebookOrCreate) {
   return function(req, res, next) {
     // We want to do some custom handling here
     passport.authenticate('facebook', function(err, facebookUser, info) {
@@ -28,7 +40,7 @@ module.exports = function() {
         return res.render('login');
       }
 
-      db.getUserByFacebookOrCreate(facebookUser, function(err, user) {
+      getUserByFacebookOrCreate(facebookUser, function(err, user) {
         if (err) return next(err);
 
         req.logIn(user, function(err) {

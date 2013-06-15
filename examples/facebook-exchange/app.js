@@ -3,6 +3,7 @@
  */
 var oauth = require('../..')
   , env = require('envs')
+  , db = require('./lib/db')
   , pbkdf2 = require('./lib/pbkdf2')
   , mongo = require('./lib/mongo')
   , facebook = require('./lib/facebook')
@@ -12,19 +13,13 @@ var oauth = require('../..')
  * Defines
  */
 var SECRETS = env('SECRETS', 'f11c08f4fabb91b70a8fc9f32c88e0d6c6918e0c60e55ddc1d5847d08cb810db').split(',')
-  , SCOPES = env('SCOPES', '').split(',')
-  , COOKIE_SECRET = env('COOKIE_SECRET', 'this is a secret message')
-  , PASS_SALT = env('PASS_SALT', 'i should be at least 64 bits')
-  , PASS_ITERATIONS = env('PASS_ITERATIONS', 64000)
-  , PASS_KEYLEN = env('PASS_KEYLEN', 64)
-  , MONGO_URL = env('MONGO_URL')
-  , NODE_ENV = env('NODE_ENV', 'development');
+  , SCOPES = env('SCOPES', '').split(',');
 
 /**
  * Create an OAuth 2.0 server
  */
 var app = module.exports = oauth({session: {
-  secret: COOKIE_SECRET,
+  secret: env('COOKIE_SECRET', 'this is a secret message'),
   key: '_oauth2_session'
 }});
 
@@ -34,14 +29,13 @@ var app = module.exports = oauth({session: {
 app
   .set('view engine', 'jade')
   .engine('jade', jade.__express)
-  .locals({development: NODE_ENV === 'development'});
+  .locals({development: env('NODE_ENV', 'development') === 'development'});
 
 /**
  * Our middleware
  */
 app
-  .use('/public', oauth.middleware.static(__dirname+'/public'))
-  .use('/auth/facebook', facebook());
+  .use('/public', oauth.middleware.static(__dirname+'/public'));
 
 /**
  * Error handler
@@ -56,20 +50,28 @@ app.use(function errorHandler(err, req, res, next) {
  * OAuth Plugins
  ****/
 
+app.plugin(facebook({
+  getUserByFacebookOrCreate: db.getUserByFacebookOrCreate,
+  path: '/auth/facebook',
+  clientID: env('FACEBOOK_CLIENT_ID'),
+  clientSecret: env('FACEBOOK_CLIENT_SECRET'),
+  callbackURL: env('FACEBOOK_CALLBACK_URL', 'http://localhost:5000/auth/facebook')
+}));
+
 /**
  * Register a pass hash plugin
  */
 app.plugin(pbkdf2({
-  salt: PASS_SALT,
-  iterations: PASS_ITERATIONS,
-  keylen: PASS_KEYLEN
+  salt: env('PASS_SALT', 'i should be at least 64 bits'),
+  iterations: env('PASS_ITERATIONS', 64000),
+  keylen: env('PASS_KEYLEN', 64)
 }));
 
 /**
  * Register the mongo plugin
  */
 app.plugin(mongo({
-  url: MONGO_URL
+  url: env('MONGO_URL')
 }));
 
 /**
