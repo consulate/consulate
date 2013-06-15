@@ -7,7 +7,7 @@ var find = require('find');
 var users = [
   // password = testing123
   {
-    id: 0,
+    id: 'user1',
     username: 'timshadel',
     passhash: 'c00fdd087376f0a11a5ad70f1df471913cd277d7ffe2f3d2f891c8a400c373e09ac6ca25733b820e65262eecfa2ede0aa6dcaf78acb9d1cc2441f51dffacddd1',
     scopes: '*'
@@ -15,11 +15,11 @@ var users = [
 ];
 
 var clients = {
-  '123': {
+  'client123': {
     name: 'My Application',
     description: 'A really cool application',
     secret: 'super+secret',
-    return_uri: ['http://localhost:5000/auth/callback'],
+    redirect_uri: ['http://localhost:5000/auth/callback'],
     scopes: ['user:name', 'user:email'],
     optional_scopes: ['user:age']
   }
@@ -30,7 +30,7 @@ var authorizationCodes = {};
 var accessTokens = {};
 
 exports.getUser = function(id, cb) {
-  cb(null, users[id]);
+  cb(null, find(users, {id: id}));
 };
 
 exports.getUserByUsername = function(username, cb) {
@@ -50,7 +50,7 @@ exports.saveAuthorizationCode = function(code, userID, clientID, redirectURI, cb
   authorizationCodes[code] = {
     user_id: userID,
     client_id: clientID,
-    return_uri: redirectURI
+    redirect_uri: redirectURI
   };
   cb();
 };
