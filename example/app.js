@@ -95,7 +95,7 @@ app.client(function(clientID, done) {
     // The client needs to have the following properties:
     // {
     //   secret: "...",
-    //   callbacks: ["...", "..."],
+    //   return_uri: "...", // or ["...", "..."] for multiple
     //   scopes: ["...", "..."],
     //   optional_scopes: ["...", "..."]
     // }

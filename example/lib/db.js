@@ -9,7 +9,7 @@ var users = {
 var clients = {
   '123': {
     secret: 'super+secret',
-    callbacks: ['http://localhost:5000/auth/callback'],
+    return_uri: ['http://localhost:5000/auth/callback'],
     scopes: ['user:name', 'user:email'],
     optional_scopes: ['user:age']
   }
@@ -35,7 +35,7 @@ exports.saveAuthorizationCode = function(code, userID, clientID, redirectURI, cb
   authorizationCodes[code] = {
     user_id: userID,
     client_id: clientID,
-    redirect_uri: redirectURI
+    return_uri: redirectURI
   };
   cb();
 };
