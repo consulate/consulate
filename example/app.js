@@ -4,7 +4,8 @@
 var oauth = require('..')
   , env = require('envs')
   , pbkdf2 = require('crypto').pbkdf2
-  , db = require('./lib/db');
+  , db = require('./lib/db')
+  , jade = require('jade');
 
 /**
  * Defines
@@ -30,7 +31,7 @@ var app = module.exports = oauth({session: {
  */
 app
   .set('view engine', 'jade')
-  .engine('jade', require('jade').__express)
+  .engine('jade', jade.__express)
   .locals({development: NODE_ENV === 'development'});
 
 /**
@@ -209,7 +210,7 @@ app.loginView(function(req, res) {
  * `locals` is populated with the following values
  *
  * user: the current user
- * client: the client requesting information
+ * oauthClient: the client requesting information
  * transactionID: the id of the oauth 2.0 transaction
  * scopes: an array of scopes which an application is requesting to be approved
  * optionalScopes: an array of optional scopes
