@@ -10,7 +10,8 @@
     "passport-http": "~0.2.2",
     "passport-oauth2-client-password": "~0.1.1",
     "passport": "~0.1.17",
-    "debug": "~0.7.2"
+    "debug": "~0.7.2",
+    "passport-local": "~0.1.6"
   },
   "devDependencies": {
     "mocha": "~1.9.0",

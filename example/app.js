@@ -159,7 +159,7 @@ app.saveAccessToken(function(code, userID, clientID, done) {
  *
  * `locals` is populated with the following values
  *
- * loginError: infomation about a login error (invalid username/password)
+ * loginInfo: infomation about a login (invalid username/password, etc)
  */
 app.loginView(function(req, res) {
   res.render('login');
