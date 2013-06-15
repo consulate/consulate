@@ -23,7 +23,7 @@ var SECRETS = env('SECRETS', 'f11c08f4fabb91b70a8fc9f32c88e0d6c6918e0c60e55ddc1d
  */
 var app = module.exports = oauth({session: {
   secret: COOKIE_SECRET,
-  key: 'oauth2'
+  key: '_oauth2_session'
 }});
 
 /**

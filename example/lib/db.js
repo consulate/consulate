@@ -11,6 +11,12 @@ var users = [
     username: 'timshadel',
     passhash: 'c00fdd087376f0a11a5ad70f1df471913cd277d7ffe2f3d2f891c8a400c373e09ac6ca25733b820e65262eecfa2ede0aa6dcaf78acb9d1cc2441f51dffacddd1',
     scopes: '*'
+  },
+  {
+    id: 'user2',
+    username: 'camshaft',
+    passhash: 'c00fdd087376f0a11a5ad70f1df471913cd277d7ffe2f3d2f891c8a400c373e09ac6ca25733b820e65262eecfa2ede0aa6dcaf78acb9d1cc2441f51dffacddd1',
+    scopes: '*'
   }
 ];
 
