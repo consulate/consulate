@@ -9,11 +9,11 @@ var oauth = require("..")
 /**
  * Defines
  */
-var SECRETS = env(SECRETS, "").split(',')
-  , SCOPES = env(SCOPES, "").split(',')
-  , PASS_SALT = env(PASS_SALT, "i should be at least 64 bits")
-  , PASS_ITERATIONS = env(PASS_ITERATIONS, 64000)
-  , PASS_KEYLEN = env(PASS_KEYLEN, 64);
+var SECRETS = env("SECRETS", "").split(',')
+  , SCOPES = env("SCOPES", "").split(',')
+  , PASS_SALT = env("PASS_SALT", "i should be at least 64 bits")
+  , PASS_ITERATIONS = env("PASS_ITERATIONS", 64000)
+  , PASS_KEYLEN = env("PASS_KEYLEN", 64);
 
 /**
  * Create an OAuth 2.0 server
