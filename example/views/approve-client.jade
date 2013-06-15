@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h2 Approve '#{clientName}' to access your data:
+  p= clientDescription
+  h3 Scopes
+  ul.scopes
+    each scope in scopes
+      li.scope= scope
+  if optionalScope
+    h3 Optional Scopes
+    ul.optional-scopes
+      each scope in optionalScope
+        li.scope= scope
+
+  form(action=submitURL, method="POST")
+    input(type="hidden", name="answer", value="true")
+    if optionalScope
+      label(for="allow-optional-scopes") Allow optional scopes
+      input(id="allow-optional-scopes", type="checkbox", name="option-scopes", checked="true")
+    input(type="submit", value="Yes")
+  form(action=submitURL, method="POST")
+    input(type="hidden", name="answer", value="false")
+    input(type="submit", value="No")

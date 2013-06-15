@@ -1,0 +1,8 @@
+{
+  "name": "my-oauth-server",
+  "dependencies": {
+    "startup": "~0.1.12",
+    "envs": "~0.1.1",
+    "jade": "~0.31.2"
+  }
+}
