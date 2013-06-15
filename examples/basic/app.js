@@ -1,7 +1,7 @@
 /**
  * Module dependencies
  */
-var oauth = require('..')
+var oauth = require('../..')
   , env = require('envs')
   , pbkdf2 = require('crypto').pbkdf2
   , db = require('./lib/db')

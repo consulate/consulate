@@ -1,5 +1,5 @@
 {
-  "name": "my-oauth-server",
+  "name": "oauth-basic-example",
   "dependencies": {
     "startup": "~0.1.12",
     "envs": "~0.1.1",

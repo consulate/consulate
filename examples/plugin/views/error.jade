@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h2 A wild #{err.name} appears!
+  p= err.message
+  if development
+    pre
+      code= err.stack || err
