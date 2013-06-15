@@ -16,6 +16,8 @@ var users = [
 
 var clients = {
   '123': {
+    name: 'My Application',
+    description: 'A really cool application',
     secret: 'super+secret',
     return_uri: ['http://localhost:5000/auth/callback'],
     scopes: ['user:name', 'user:email'],

@@ -209,6 +209,7 @@ app.loginView(function(req, res) {
  *
  * `locals` is populated with the following values
  *
+ * action: the action property of the submit form to approve/cancel the authorization
  * user: the current user
  * oauthClient: the client requesting information
  * transactionID: the id of the oauth 2.0 transaction

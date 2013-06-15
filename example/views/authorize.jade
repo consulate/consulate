@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  h2 Approve '#{client.name}' to access your data:
-  p= client.description
+  h2 Approve '#{oauthClient.name}' to access your data:
+  p= oauthClient.description
   h3 Scopes
   ul.scopes
     each scope in scopes
@@ -13,12 +13,12 @@ block content
       each scope in optionalScope
         li.scope= scope
 
-  form(method="POST")
-    input(type="hidden", name="answer", value="true")
+  form(action=action, method="POST")
+    input(type="hidden", name="allow", value="true")
     if optionalScope
       label(for="allow-optional-scopes") Allow optional scopes
       input(id="allow-optional-scopes", type="checkbox", name="option-scopes", checked="true")
     input(type="submit", value="Yes")
-  form(action=submitURL, method="POST")
-    input(type="hidden", name="answer", value="false")
+  form(action=action, method="POST")
+    input(type="hidden", name="cancel", value="true")
     input(type="submit", value="No")
