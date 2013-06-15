@@ -159,7 +159,6 @@ app.saveAccessToken(function(code, userID, clientID, done) {
  *
  * `locals` is populated with the following values
  *
- * submitURL: url at which to POST the login form data
  * loginError: infomation about a login error (invalid username/password)
  */
 app.loginView(function(req, res) {
