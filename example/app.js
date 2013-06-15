@@ -171,12 +171,11 @@ app.loginView(function(req, res) {
  *
  * `locals` is populated with the following values
  *
- * submitURL: url at which to POST the approval information
+ * user: the current user
+ * client: the client requesting information
+ * transactionID: the id of the oauth 2.0 transaction
  * scopes: an array of scopes which an application is requesting to be approved
  * optionalScopes: an array of optional scopes
- * clientName: the name of the requesting client
- * clientDescription: a brief description of the requesting client
- * clientImage: a small image/logo of the requesting client
  */
 app.authorizeView(function(req, res) {
   res.render('authorize');

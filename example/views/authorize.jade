@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  h2 Approve '#{clientName}' to access your data:
-  p= clientDescription
+  h2 Approve '#{client.name}' to access your data:
+  p= client.description
   h3 Scopes
   ul.scopes
     each scope in scopes
@@ -13,7 +13,7 @@ block content
       each scope in optionalScope
         li.scope= scope
 
-  form(action=submitURL, method="POST")
+  form(method="POST")
     input(type="hidden", name="answer", value="true")
     if optionalScope
       label(for="allow-optional-scopes") Allow optional scopes
