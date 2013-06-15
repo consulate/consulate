@@ -34,11 +34,8 @@ exports.login = function(getUserByFacebookOrCreate) {
     passport.authenticate('facebook', function(err, facebookUser, info) {
       if (err) return next(err);
 
-      // We couldn't find the user or the password was invalid
-      if (!facebookUser) {
-        res.locals({loginInfo: info || 'Invalid username/password'});
-        return res.render('login');
-      }
+      // The user didn't end up logging in through facebook
+      if (!facebookUser) return res.redirect('/login');
 
       getUserByFacebookOrCreate(facebookUser, function(err, user) {
         if (err) return next(err);
