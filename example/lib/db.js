@@ -2,9 +2,16 @@
  * Module dependencies
  */
 
-var users = {
-  '1': {username: 'timshadel', passhash: '123', scopes: '*'}
-};
+var find = require('find');
+
+var users = [
+  // password = testing123
+  {
+    username: 'timshadel',
+    passhash: 'c00fdd087376f0a11a5ad70f1df471913cd277d7ffe2f3d2f891c8a400c373e09ac6ca25733b820e65262eecfa2ede0aa6dcaf78acb9d1cc2441f51dffacddd1',
+    scopes: '*'
+  }
+];
 
 var clients = {
   '123': {
@@ -21,6 +28,11 @@ var accessTokens = {};
 
 exports.getUser = function(id, cb) {
   cb(null, users[id]);
+};
+
+exports.getUserByUsername = function(username, cb) {
+  var user = find(users, {username: username});
+  cb(null, user);
 };
 
 exports.getClient = function(id, cb) {

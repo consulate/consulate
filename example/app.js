@@ -67,6 +67,21 @@ app.user(function(userID, done) {
 });
 
 /**
+ * Lookup a user by username
+ */
+app.userByUsername(function(username, done) {
+  // Get the info from a db, file, env, etc
+  db.getUserByUsername(username, function(err, user) {
+    // The user needs to have the following properties:
+    // {
+    //   passhash: "..."
+    // }
+
+    done(err, user);
+  });
+});
+
+/**
  * List the scopes the user is allowed
  */
 app.allowedUserScopes(function(user, done) {
@@ -78,7 +93,10 @@ app.allowedUserScopes(function(user, done) {
  * Hash a user provided password
  */
 app.hashPassword(function(password, user, done) {
-  pbkdf2(password, PASS_SALT, PASS_ITERATIONS, PASS_KEYLEN, done);
+  pbkdf2(password, PASS_SALT, PASS_ITERATIONS, PASS_KEYLEN, function(err, hash) {
+    if (err) return done(err);
+    done(null, hash.toString('hex'));
+  });
 });
 
 
