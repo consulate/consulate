@@ -167,7 +167,7 @@ app.loginView(function(req, res) {
 });
 
 /**
- * Render the 'approve client' page
+ * Render the 'authorize' page
  *
  * `locals` is populated with the following values
  *
@@ -178,6 +178,6 @@ app.loginView(function(req, res) {
  * clientDescription: a brief description of the requesting client
  * clientImage: a small image/logo of the requesting client
  */
-app.approveClientView(function(req, res) {
-  res.render("approve-client");
+app.authorizeView(function(req, res) {
+  res.render("authorize");
 });
