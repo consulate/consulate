@@ -11,6 +11,7 @@ var oauth = require('..')
  */
 var SECRETS = env('SECRETS', '').split(',')
   , SCOPES = env('SCOPES', '').split(',')
+  , COOKIE_SECRET = env('COOKIE_SECRET', 'this is a secret message')
   , PASS_SALT = env('PASS_SALT', 'i should be at least 64 bits')
   , PASS_ITERATIONS = env('PASS_ITERATIONS', 64000)
   , PASS_KEYLEN = env('PASS_KEYLEN', 64);
@@ -18,7 +19,10 @@ var SECRETS = env('SECRETS', '').split(',')
 /**
  * Create an OAuth 2.0 server
  */
-var app = module.exports = oauth();
+var app = module.exports = oauth({session: {
+  secret: COOKIE_SECRET,
+  key: 'oauth2'
+}});
 
 /**
  * Configure our app
