@@ -1,19 +1,19 @@
 /**
  * Module dependencies
  */
-var oauth = require("..")
-  , env = require("envs")
-  , pbkdf2 = require("crypto").pbkdf2
-  , db = require("./lib/db");
+var oauth = require('..')
+  , env = require('envs')
+  , pbkdf2 = require('crypto').pbkdf2
+  , db = require('./lib/db');
 
 /**
  * Defines
  */
-var SECRETS = env("SECRETS", "").split(',')
-  , SCOPES = env("SCOPES", "").split(',')
-  , PASS_SALT = env("PASS_SALT", "i should be at least 64 bits")
-  , PASS_ITERATIONS = env("PASS_ITERATIONS", 64000)
-  , PASS_KEYLEN = env("PASS_KEYLEN", 64);
+var SECRETS = env('SECRETS', '').split(',')
+  , SCOPES = env('SCOPES', '').split(',')
+  , PASS_SALT = env('PASS_SALT', 'i should be at least 64 bits')
+  , PASS_ITERATIONS = env('PASS_ITERATIONS', 64000)
+  , PASS_KEYLEN = env('PASS_KEYLEN', 64);
 
 /**
  * Create an OAuth 2.0 server
@@ -24,9 +24,9 @@ var app = module.exports = oauth();
  * Configure our app
  */
 app
-  .set("view engine", "jade")
-  .engine("jade", require("jade").__express)
-  .use("/public", oauth.middleware.static(__dirname+"/public"));
+  .set('view engine', 'jade')
+  .engine('jade', require('jade').__express)
+  .use('/public', oauth.middleware.static(__dirname+'/public'));
 
 /*****
  * Generic callbacks
@@ -163,7 +163,7 @@ app.saveAccessToken(function(code, userID, clientID, done) {
  * loginError: infomation about a login error (invalid username/password)
  */
 app.loginView(function(req, res) {
-  res.render("login");
+  res.render('login');
 });
 
 /**
@@ -179,5 +179,5 @@ app.loginView(function(req, res) {
  * clientImage: a small image/logo of the requesting client
  */
 app.authorizeView(function(req, res) {
-  res.render("authorize");
+  res.render('authorize');
 });

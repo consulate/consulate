@@ -3,15 +3,15 @@
  */
 
 var users = {
-  '1': {username: "timshadel", passhash: "123", scopes: "*"}
+  '1': {username: 'timshadel', passhash: '123', scopes: '*'}
 };
 
 var clients = {
   '123': {
-    secret: "super+secret",
-    callbacks: ["http://localhost:5000/auth/callback"],
-    scopes: ["user:name", "user:email"],
-    optional_scopes: ["user:age"]
+    secret: 'super+secret',
+    callbacks: ['http://localhost:5000/auth/callback'],
+    scopes: ['user:name', 'user:email'],
+    optional_scopes: ['user:age']
   }
 };
 
