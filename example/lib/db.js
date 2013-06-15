@@ -14,8 +14,9 @@ var users = [
   }
 ];
 
-var clients = {
-  'client123': {
+var clients = [
+  {
+    id: 'client123',
     name: 'My Application',
     description: 'A really cool application',
     secret: 'super+secret',
@@ -23,7 +24,7 @@ var clients = {
     scopes: ['user:name', 'user:email'],
     optional_scopes: ['user:age']
   }
-};
+];
 
 var authorizationCodes = {};
 
@@ -39,7 +40,7 @@ exports.getUserByUsername = function(username, cb) {
 };
 
 exports.getClient = function(id, cb) {
-  cb(null, clients[id]);
+  cb(null, find(clients, {id: id}));
 };
 
 exports.getAuthorizationCode = function(id, cb) {
