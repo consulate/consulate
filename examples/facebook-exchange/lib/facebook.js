@@ -9,7 +9,7 @@ var passport = require('passport')
 passport.use(new FacebookStrategy({
   clientID: env('FACEBOOK_CLIENT_ID'),
   clientSecret: env('FACEBOOK_CLIENT_SECRET'),
-  callbackURL: env('FACEBOOK_CALLBACK_URL', 'http://localhost:5002/auth/facebook')
+  callbackURL: env('FACEBOOK_CALLBACK_URL', 'http://localhost:5000/auth/facebook')
 }, function(accessToken, refreshToken, profile, done) {
   profile.accessToken = accessToken;
   profile.refreshToken = refreshToken;
@@ -34,7 +34,9 @@ module.exports = function() {
         req.logIn(user, function(err) {
           if (err) return next(err);
 
-          var returnTo = '/authorize';
+          var returnTo = req.session.returnTo;
+          // Delete it
+          delete req.session.returnTo;
 
           // Redirect to where we came from
           return res.redirect(returnTo);
