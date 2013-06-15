@@ -15,10 +15,12 @@ block content
 
   form(action=action, method="POST")
     input(type="hidden", name="allow", value="true")
+    input(type="hidden", name="transaction_id", value=transaction)
     if optionalScope
       label(for="allow-optional-scopes") Allow optional scopes
       input(id="allow-optional-scopes", type="checkbox", name="option-scopes", checked="true")
     input(type="submit", value="Yes")
   form(action=action, method="POST")
     input(type="hidden", name="cancel", value="true")
+    input(type="hidden", name="transaction_id", value=transaction)
     input(type="submit", value="No")

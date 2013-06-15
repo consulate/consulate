@@ -212,7 +212,7 @@ app.loginView(function(req, res) {
  * action: the action property of the submit form to approve/cancel the authorization
  * user: the current user
  * oauthClient: the client requesting information
- * transactionID: the id of the oauth 2.0 transaction
+ * transaction: the id of the oauth 2.0 transaction - this MUST be submitted with the form
  * scopes: an array of scopes which an application is requesting to be approved
  * optionalScopes: an array of optional scopes
  */
