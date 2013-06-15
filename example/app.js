@@ -10,7 +10,7 @@ var oauth = require('..')
 /**
  * Defines
  */
-var SECRETS = env('SECRETS', '').split(',')
+var SECRETS = env('SECRETS', 'f11c08f4fabb91b70a8fc9f32c88e0d6c6918e0c60e55ddc1d5847d08cb810db').split(',')
   , SCOPES = env('SCOPES', '').split(',')
   , COOKIE_SECRET = env('COOKIE_SECRET', 'this is a secret message')
   , PASS_SALT = env('PASS_SALT', 'i should be at least 64 bits')
