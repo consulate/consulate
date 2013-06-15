@@ -32,6 +32,13 @@ app
   .engine('jade', require('jade').__express)
   .use('/public', oauth.middleware.static(__dirname+'/public'));
 
+/**
+ * Error handler
+ */
+app.use(function errorHandler(err, req, res, next) {
+  res.render('error', {err: err});
+});
+
 /*****
  * Generic callbacks
  ****/
