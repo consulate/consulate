@@ -80,6 +80,7 @@ app.user(function(userID, done) {
   db.getUser(userID, function(err, user) {
     // The user needs to have the following properties:
     // {
+    //   id: "...",
     //   passhash: "..."
     // }
 
@@ -95,6 +96,7 @@ app.userByUsername(function(username, done) {
   db.getUserByUsername(username, function(err, user) {
     // The user needs to have the following properties:
     // {
+    //   id: "...",
     //   passhash: "..."
     // }
 
