@@ -14,7 +14,8 @@ var SECRETS = env('SECRETS', '').split(',')
   , COOKIE_SECRET = env('COOKIE_SECRET', 'this is a secret message')
   , PASS_SALT = env('PASS_SALT', 'i should be at least 64 bits')
   , PASS_ITERATIONS = env('PASS_ITERATIONS', 64000)
-  , PASS_KEYLEN = env('PASS_KEYLEN', 64);
+  , PASS_KEYLEN = env('PASS_KEYLEN', 64)
+  , NODE_ENV = env('NODE_ENV', 'development');
 
 /**
  * Create an OAuth 2.0 server
@@ -30,12 +31,20 @@ var app = module.exports = oauth({session: {
 app
   .set('view engine', 'jade')
   .engine('jade', require('jade').__express)
+  .locals({development: NODE_ENV === 'development'});
+
+/**
+ * Our middleware
+ */
+app
   .use('/public', oauth.middleware.static(__dirname+'/public'));
 
 /**
  * Error handler
  */
 app.use(function errorHandler(err, req, res, next) {
+  console.error(err.stack || err.message || err);
+  res.status(err.status || 500);
   res.render('error', {err: err});
 });
 

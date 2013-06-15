@@ -1,7 +1,8 @@
 extends layout
 
 block content
-  h2 Oops!
-  p It looks like something went wrong with the request!
-  pre
-    code= err.stack || err
+  h2 A wild #{err.name} appears!
+  p= err.message
+  if development
+    pre
+      code= err.stack || err
