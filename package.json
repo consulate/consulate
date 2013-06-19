@@ -1,7 +1,6 @@
 {
-  "name": "blank",
+  "name": "consulate",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "oauth2orize": "git+https://github.com/timshadel/oauth2orize.git",
     "express": "~3.2.6",
