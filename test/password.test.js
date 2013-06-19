@@ -23,12 +23,15 @@ MockResponse.prototype.end = function(data, encoding) {
 describe('a password exchange', function() {
   var callbacks = {
     'userByUsername': function(username, done) {
-      if (username === 'validuser') return done(null, {'id': 12, 'username': 'validuser'});
+      if (username === 'validuser') return done(null, {});
       done(null, null);
     },
     'verifyPassword': function(user, password, done) {
       if (password === 'validpass') return done(null, true);
       done(null, false);
+    },
+    'issueToken': function(client, user, scope, done) {
+      done(null, 'some-websafe-token-string');
     }
   }
 
@@ -50,6 +53,20 @@ describe('a password exchange', function() {
       asserts(err);
       done();
     }
+  }
+
+  function expect_no_error(err) {
+    done(new Error('should not be called'));
+  }
+
+  function issues_token(res, done) {
+    res.done = function() {
+      expect(res._data).to.match(/access_token/);
+      expect(res._data).to.match(/bearer/);
+      expect(res._data).to.match(/some-websafe-token-string/);
+      done();
+    }
+    return res;
   }
 
   // NOTE: Missing params are covered by oauth2orize. We deal with data lookups, and test those.
@@ -77,14 +94,8 @@ describe('a password exchange', function() {
   });
 
   it('should accept a good username and password combination', function(done) {
-    res.done = function() {
-      expect(res._data).to.match(/access_token/);
-      done();
-    }
     req.body = { username: 'validuser', password: 'validpass' };
-    password(req, res, function(err) {
-      done(new Error('should not be called'));
-    });
+    password(req, issues_token(res, done), expect_no_error);
   });
 
 });
