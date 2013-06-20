@@ -122,13 +122,6 @@ describe('a code exchange', function() {
     }));
   });
 
-  it('should accept a good code with a valid redirect uri from a known client', function(done) {
-    req.body = { code: 'validCode', redirect_uri: 'validRedirectUri' };
-    // During exchanges, the "user" is the client app
-    req.user = { id: 'validClientId' };
-    code(req, issues_token(res, done), expect_no_error(done));
-  });
-
   it('should not accept an invalidated code', function(done) {
     res.done = function() {
       done(new Error('should not be called'));
@@ -141,6 +134,13 @@ describe('a code exchange', function() {
         expect(err.message).to.match(/code/);
       }));
     }), expect_no_error(done));
+  });
+
+  it('should accept a good code with a valid redirect uri from a known client', function(done) {
+    req.body = { code: 'validCode', redirect_uri: 'validRedirectUri' };
+    // During exchanges, the "user" is the client app
+    req.user = { id: 'validClientId' };
+    code(req, issues_token(res, done), expect_no_error(done));
   });
 
 });
