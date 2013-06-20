@@ -11,7 +11,8 @@
     "passport": "~0.1.17",
     "debug": "~0.7.2",
     "passport-local": "~0.1.6",
-    "websafe-uid": "~1.0.0"
+    "websafe-uid": "~1.0.0",
+    "passport-oauth2-public-client": "~0.1.0"
   },
   "devDependencies": {
     "mocha": "~1.9.0",
