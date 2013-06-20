@@ -18,6 +18,9 @@ describe('a code exchange', function() {
     },
     'issueToken': function(client, user, scope, done) {
       done(null, 'some-websafe-token-string');
+    },
+    'invalidateAuthorizationCode': function(code, done) {
+      done(null);
     }
   }
 
