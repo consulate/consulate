@@ -29,7 +29,7 @@ describe('a code exchange', function() {
     }
   }
 
-  var password, req, res;
+  var password, req, res, code;
 
   beforeEach(function() {
     code = codeEx(function(name) {
