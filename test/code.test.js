@@ -43,7 +43,7 @@ describe('a code exchange', function() {
   function invalid_request(done, asserts) {
     return function(err) {
       expect(err).to.be.ok();
-      expect(err.code).to.be.ok('invalid_request');
+      expect(err.code).to.be('invalid_grant');
       expect(err.status).to.be(400);
       asserts(err);
       done();
@@ -100,10 +100,13 @@ describe('a code exchange', function() {
     }
     req.body = { code: 'validCode', redirect_uri: 'validRedirectUri' };
     // During exchanges, the "user" is the client app
-    code(req, res, invalid_request(done, function(err) {
-      expect(err.message).to.match(/invalid/);
-      expect(err.message).to.match(/code/);
-    }));
+    code(req, res, function(err) {
+      expect(err).to.be.ok();
+      expect(err.code).to.be('invalid_client');
+      expect(err.status).to.be(401);
+      expect(err.message).to.match(/client/);
+      done();
+    });
   });
 
   it('should not accept codes from a different client app than the one to which they were issued', function(done) {
