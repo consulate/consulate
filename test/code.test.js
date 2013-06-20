@@ -6,9 +6,13 @@ var codeEx = require('../lib/auth/exchanges/code')
 
 
 describe('a code exchange', function() {
+  // Store our invalidated auth codes
+  var invalidatedCodes;
+
   var callbacks = {
     'authorizationCode': function(code, done) {
       var fullCode = {client_id: 'validClientId', user_id: 'validUserId', redirect_uri: 'validRedirectUri'};
+      if (~invalidatedCodes.indexOf(code)) return done(null, false);
       if (code === 'validCode') return done(null, fullCode);
       done(null, null);
     },
@@ -20,6 +24,7 @@ describe('a code exchange', function() {
       done(null, 'some-websafe-token-string');
     },
     'invalidateAuthorizationCode': function(code, done) {
+      invalidatedCodes.push(code);
       done(null);
     }
   }
@@ -32,6 +37,7 @@ describe('a code exchange', function() {
     });
     req = new MockRequest();
     res = new MockResponse();
+    invalidatedCodes = [];
   });
 
   function invalid_request(done, asserts) {
@@ -118,6 +124,20 @@ describe('a code exchange', function() {
     // During exchanges, the "user" is the client app
     req.user = { id: 'validClientId' };
     code(req, issues_token(res, done), expect_no_error(done));
+  });
+
+  it('should not accept an invalidated code', function(done) {
+    res.done = function() {
+      done(new Error('should not be called'));
+    }
+    req.body = { code: 'validCode', redirect_uri: 'validRedirectUri' };
+    req.user = { id: 'validClientId' };
+    code(req, issues_token(res, function() {
+      code(req, res, invalid_request(done, function(err) {
+        expect(err.message).to.match(/invalid/);
+        expect(err.message).to.match(/code/);
+      }));
+    }), expect_no_error(done));
   });
 
 });
