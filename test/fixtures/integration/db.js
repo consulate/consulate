@@ -17,14 +17,19 @@ var clients = [
     id: 'validClient',
     name: 'My Application',
     description: 'A really cool application',
-    secret: 'super+secret',
+    secret: 'validSecret',
     redirect_uri: ['http://localhost:5000/auth/callback'],
     scopes: ['user:name', 'user:email'],
     optional_scopes: ['user:age']
+  },
+  {
+    id: 'publicClient',
+    redirect_uri: ['http://localhost:5000/auth/callback'],
+    scopes: ['user:name', 'user:email']
   }
 ];
 
-var authorizationCodes = {};
+var authorizationCodes = [];
 
 exports.getUser = function(id, cb) {
   cb(null, find(users, function(user) {
@@ -40,19 +45,28 @@ exports.getUserByUsername = function(username, cb) {
 };
 
 exports.getClient = function(id, cb) {
-  cb(null, find(clients, {id: id}));
+  cb(null, find(clients, function(client) {
+    return client.id == id;
+  }));
 };
 
 exports.getAuthorizationCode = function(id, cb) {
   cb(null, authorizationCodes[id]);
 };
 
-exports.saveAuthorizationCode = function(code, userID, clientID, redirectURI, cb) {
-  authorizationCodes[code] = {
-    user_id: userID,
-    client_id: clientID,
+exports.createAuthorizationCode = function(client, redirectURI, user, ares, cb) {
+  var authCode = {
+    user_id: user.id,
+    client_id: client.id,
     redirect_uri: redirectURI
   };
+  var code = authorizationCodes.length;
+  authorizationCodes.push(authCode);
+  cb(null, ''+code);
+};
+
+exports.invalidateAuthorizationCode = function(code, cb) {
+  delete authorizationCodes[code]
   cb();
 };
 

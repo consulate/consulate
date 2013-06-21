@@ -3,10 +3,9 @@
  */
 var consulate = require("../../..")
   , db = require('./db')
-  , express = require('express')
-  , domain = require('domain');
+  , express = require('express');
 
-var app = consulate({session: {
+var app = module.exports = consulate({session: {
   secret: 'consulate',
   key: '_oauth2_session'
 }});
@@ -20,7 +19,7 @@ app
   .userByUsername(db.getUserByUsername)
   .client(db.getClient)
   .authorizationCode(db.getAuthorizationCode)
-  .saveAuthorizationCode(db.saveAuthorizationCode)
+  .createAuthorizationCode(db.createAuthorizationCode)
   .invalidateAuthorizationCode(db.invalidateAuthorizationCode)
 
 /**
@@ -28,6 +27,12 @@ app
  */
 
 app
+  .scopes(function(done) {
+    done(null, []);
+  })
+  .allowedUserScopes(function(user, done) {
+    done(null, user.scopes);
+  })
   .verifyPassword(function(user, password, done) {
     done(null, password == 'validPass');
   })
@@ -48,27 +53,8 @@ app
     res.send('login');
   })
   .authorizeView(function(req, res) {
-    res.send('authorize');
+    res.send({
+      transaction: res.locals.transaction,
+      action: res.locals.action
+    });
   });
-
-var server = module.exports = express();
-
-server.use(function(req, res) {
-  var reqd = domain.create();
-
-  // Add req and res the the request domain
-  reqd.add(req);
-  reqd.add(res);
-
-  // Error handler
-  reqd.on('error', function(err) {
-    console.error(err);
-  });
-
-  // Dispose the domain
-  res.on('close', function() {
-    reqd.dispose();
-  });
-
-  reqd.bind(app)(req, res);
-});
