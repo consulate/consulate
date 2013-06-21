@@ -1,5 +1,5 @@
 
-var pass = require('../lib/auth/exchanges/password')
+var pass = require('..').exchanges.password
   , expect = require('expect.js')
   , MockRequest = require('./mocks').MockRequest
   , MockResponse = require('./mocks').MockResponse;

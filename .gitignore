@@ -14,5 +14,7 @@ results
 npm-debug.log
 node_modules
 .env
-
+lib-cov
 public/components
+coverage.html
+docs/*.html

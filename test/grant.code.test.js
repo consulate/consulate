@@ -1,5 +1,5 @@
 
-var codeGrant = require('../lib/auth/grants/code')
+var codeGrant = require('..').grants.code
   , expect = require('expect.js')
   , MockRequest = require('./mocks').MockRequest
   , MockResponse = require('./mocks').MockResponse;

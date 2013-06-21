@@ -17,7 +17,9 @@
   "devDependencies": {
     "mocha": "~1.9.0",
     "expect.js": "~0.2.0",
-    "supertest": "~0.7.0"
+    "supertest": "~0.7.0",
+    "dox": "~0.4.3",
+    "jade": "~0.31.2"
   },
   "scripts": {
     "test": "NODE_PATH=lib NODE_ENV=test mocha"

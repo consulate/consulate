@@ -1,5 +1,5 @@
 
-var codeEx = require('../lib/auth/exchanges/code')
+var codeEx = require('..').exchanges.code
   , expect = require('expect.js')
   , MockRequest = require('./mocks').MockRequest
   , MockResponse = require('./mocks').MockResponse;

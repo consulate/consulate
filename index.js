@@ -1,3 +1,3 @@
-module.exports = process.env.AUTH_COV
+module.exports = process.env.CONSULATE_COV
   ? require('./lib-cov')
   : require('./lib');
