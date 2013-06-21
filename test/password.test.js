@@ -40,8 +40,10 @@ describe('a password exchange', function() {
     }
   }
 
-  function expect_no_error(err) {
-    done(new Error('should not be called'));
+  function expect_no_error(done) {
+    return function(err) {
+      done(new Error('should not be called. Error: ' + err));
+    };
   }
 
   function issues_token(res, done) {
@@ -58,7 +60,7 @@ describe('a password exchange', function() {
 
   it('should not accept a bad username', function(done) {
     res.done = function() {
-      done(new Error('should not be called'));
+      done(new Error('should not be called. Error: ' + err));
     }
     req.body = { username: 'baduser', password: 'validpass' };
     password(req, res, invalid_request(done, function(err) {
@@ -80,7 +82,7 @@ describe('a password exchange', function() {
 
   it('should accept a good username and password combination', function(done) {
     req.body = { username: 'validuser', password: 'validpass' };
-    password(req, issues_token(res, done), expect_no_error);
+    password(req, issues_token(res, done), expect_no_error(done));
   });
 
 });
