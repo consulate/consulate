@@ -19,7 +19,8 @@ html
         unless ignore(comment)
           .comment(id=id(comment))
             h2= title(comment)
-            .description!= comment.description.full
+            .summary!= lineBreaks(comment.description.summary)
+            .description!= lineBreaks(comment.description.body)
 
             if comment.tags.length
               ul.tags

@@ -37,11 +37,16 @@ function ignore(comment) {
     || ~comment.description.full.indexOf('Module dependencies');
 }
 
+function lineBreaks(comment) {
+  return comment.replace(/<br ?\/?>/g, ' ');
+};
+
 function render(obj) {
   process.stdout.write(fn({
       comments: obj
     , ignore: ignore
     , title: title
     , id: id
+    , lineBreaks: lineBreaks
   }));
 }

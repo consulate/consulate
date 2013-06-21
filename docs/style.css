@@ -17,10 +17,11 @@ h3 {
 }
 
 a {
-  color: #8a6343;
+  color: #268BCB;
 }
 
 pre {
+  width: 100%;
   display: inline-block;
   background-color: #f8f8f8;
   border: 1px solid #ddd;
