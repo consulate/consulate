@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><title>Consulate</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="http://code.jquery.com/jquery-1.10.1.min.js"></script><script src="highlight.js"></script></head><body><div id="content"><h1>Consulate</h1><ul><li><a href="#app.scopes">Consulate#scopes()</a></li><li><a href="#app.issueToken">Consulate#issueToken()</a></li><li><a href="#app.user">Consulate#user()</a></li><li><a href="#app.userByUsername">Consulate#userByUsername()</a></li><li><a href="#app.allowedUserScopes">Consulate#allowedUserScopes()</a></li><li><a href="#app.verifyPassword">Consulate#verifyPassword()</a></li><li><a href="#app.client">Consulate#client()</a></li><li><a href="#app.authorizationCode">Consulate#authorizationCode()</a></li><li><a href="#app.saveAuthorizationCode">Consulate#saveAuthorizationCode()</a></li><li><a href="#app.invalidateAuthorizationCode">Consulate#invalidateAuthorizationCode()</a></li><li><a href="#app.loginView">Consulate#loginView()</a></li><li><a href="#app.authorizeView">Consulate#authorizeView()</a></li><li><a href="#app.plugin">Consulate#plugin()</a></li><li><a href="#app.authenticate">Consulate#authenticate()</a></li></ul><div id="app.scopes" class="comment"><h2>Consulate#scopes()</h2><div class="summary"><p>Register a callback for the allowed scopes</p></div><div class="description"><p><code>consulate</code> will ask for a list of scopes to determine if a client's request for a set of scopes is valid. The callback should pass back a list of those valid scopes.</p>
+
+<pre><code>app.scopes(function(done) {
+  // Possibly make a call to the db or pull from `process.env`
+  var scopes = process.env.SCOPES.split(',');
+  done(null, scopes);
+});
+</code></pre></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.issueToken" class="comment"><h2>Consulate#issueToken()</h2><div class="summary"><p>Register a callback to issue a token for a given user/client</p></div><div class="description"><p><code>consulate</code> will pass details about an exchange to get an access token in return. The arguments can be used to create encrypted or pseudo-random tokens. If the app chooses a pseudo-random solution it will need to save  the issued token in this step as well.</p>
+
+<pre><code>// encrypted solution
+app.issueToken(function(client, user, scope, done) {
+  // encrypt the `client.id`, `user.id` and `scope` into the token
+  var token = encrypt(client.id, user.id, scope, Date.now());
+  // pass the created token back
+  done(null, token);
+});
+
+// pseudo-random solution
+app.issueToken(function(client, user, scope, done) {
+  // hash the `client.id`, `user.id`, `scope`, `Date.now()` and some
+  // random bytes to get a unique token
+  var token = hash(client.id, user.id, scope, Date.now());
+  // save the token to the database
+  db.saveToken(token, function(err) {
+    if (err) return done(err);
+    // pass the created token back
+    done(null, token);
+  });
+});
+</code></pre>
+
+<p>Check out <a href="https://github.com/consulate/consulate-simple-secrets">consulate-simple-secrets</a> for an example of the encrypted solution.</p></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.user" class="comment"><h2>Consulate#user()</h2><div class="summary"><p>Register a callback to find a user by ID</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.userByUsername" class="comment"><h2>Consulate#userByUsername()</h2><div class="summary"><p>Register a callback to find a user by username</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.allowedUserScopes" class="comment"><h2>Consulate#allowedUserScopes()</h2><div class="summary"><p>Register a callback to list a user's allowed scopes</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.verifyPassword" class="comment"><h2>Consulate#verifyPassword()</h2><div class="summary"><p>Register a callback to verify a user provided password</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.client" class="comment"><h2>Consulate#client()</h2><div class="summary"><p>Register a callback to lookup a client by clientID</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.authorizationCode" class="comment"><h2>Consulate#authorizationCode()</h2><div class="summary"><p>Register a callback to lookup an authorization code with its associated information</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.saveAuthorizationCode" class="comment"><h2>Consulate#saveAuthorizationCode()</h2><div class="summary"><p>Register a callback to save an authorization code</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.invalidateAuthorizationCode" class="comment"><h2>Consulate#invalidateAuthorizationCode()</h2><div class="summary"><p>Register a callback to invalidate an authorization code</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.loginView" class="comment"><h2>Consulate#loginView()</h2><div class="summary"><p>Register a callback to render the 'login' page</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.authorizeView" class="comment"><h2>Consulate#authorizeView()</h2><div class="summary"><p>Register a callback to render the 'authorize' page</p></div><div class="description"></div><ul class="tags"><li><em>Function</em> fn </li></ul></div><div id="app.plugin" class="comment"><h2>Consulate#plugin()</h2><div class="summary"><p>Register a plugin that can register multiple callbacks</p></div><div class="description"><p>The plugin function will be called with the app as the single argument. The plugin can proceed to register callbacks that the plugin needs.</p>
+
+<pre><code>app.plugin(function(app){
+  // Register the callbacks here
+});
+</code></pre>
+
+<p>A common pattern will include a function that customizes the plugin and returns a closure</p>
+
+<pre><code>function myPlugin (options) {
+  // maybe set some defaults here
+  return function(app) {
+    // Register the callbacks here with options
+  }
+}
+
+app.plugin(myPlugin({
+  option1: 'foo',
+  option2: 'bar'
+}));
+</code></pre>
+
+<p>Check out some plugins on the <a href="https://github.com/consulate">consulate github page</a></p></div><ul class="tags"><li><em>Function</em> plugin </li></ul></div><div id="app.authenticate" class="comment"><h2>Consulate#authenticate()</h2><div class="summary"><p>Authenticate a user in with the given passport strategy</p></div><div class="description"><p>This actually works opposite of the way standard passport <code>authenticate</code>. If the user did not authenticate, it will continue on to the next middleware function. If a valid authentication occurred it will redirect to the authorize dialog.</p></div><ul class="tags"><li><em>String</em> strategy </li><li><em>Function</em> lookup </li><li>returns <em>Strategy</em> passport strategy</li></ul></div></div></body></html>
