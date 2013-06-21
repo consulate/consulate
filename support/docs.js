@@ -16,6 +16,7 @@ process.stdin.on('data', function(chunk){
 function title(comment) {
   if (!comment.ctx) return '';
   if (~comment.ctx.string.indexOf('module.exports')) return '';
+  if (~comment.ctx.string.indexOf('app.')) return comment.ctx.string.replace('app.', 'Consulate#');
   if (~comment.ctx.string.indexOf('prototype')) {
     return comment.ctx.string.replace('.prototype.', '#');
   } else {

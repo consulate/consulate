@@ -4,9 +4,17 @@ html
     title Consulate
     meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
     link(rel='stylesheet', href='style.css')
+    script(src='http://code.jquery.com/jquery-1.10.1.min.js')
+    script(src='highlight.js')
   body
     #content
       h1 Consulate
+      ul
+        for comment in comments
+          unless ignore(comment)
+            li
+              a(href='#' + id(comment))= title(comment)
+
       for comment in comments
         unless ignore(comment)
           .comment(id=id(comment))
@@ -23,14 +31,3 @@ html
                       li returns <em>#{tag.types.join(' | ')}</em> #{tag.description}
                   else if tag.name
                     li #{tag.name} #{tag.description}
-
-            if comment.code
-              h3 Source
-              pre
-                code!= comment.code
-
-    ul#menu
-      for comment in comments
-        unless ignore(comment)
-          li
-            a(href='#' + id(comment))= title(comment)

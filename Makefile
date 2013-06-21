@@ -3,7 +3,7 @@ TESTS = test/*.js
 REPORTER = dot
 DOX = ./node_modules/.bin/dox
 
-SRC = $(shell find lib/application.js lib/auth/*.js)
+SRC = $(shell find lib/application.js)
 HTML = $(SRC:.js=.html)
 
 test:
