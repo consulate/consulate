@@ -62,7 +62,21 @@ describe('consulate integration', function() {
       });
   });
 
-  it('should support a client token exchange');
+  it('should support a client token exchange', function(done) {
+    var client_id = 'validClient'
+      , client_secret = 'validSecret';
+
+    request(app)
+      .post('/token')
+      .auth(client_id, client_secret)
+      .send({grant_type: 'client_credentials'})
+      .end(function(err, res) {
+        if (err) return done(err);
+        if (res.error) return done(new Error(res.text));
+        expect(res.body.access_token).to.be.ok();
+        done();
+      });
+  });
 });
 
 /**
