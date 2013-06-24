@@ -50,6 +50,10 @@ exports.getClient = function(id, cb) {
   }));
 };
 
+exports.isValidClientRedirectURI = function(client, uri, cb) {
+  cb(null, client.redirect_uri.indexOf(uri) > -1);
+}
+
 exports.getAuthorizationCode = function(id, cb) {
   cb(null, authorizationCodes[id]);
 };
