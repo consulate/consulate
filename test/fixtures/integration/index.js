@@ -21,6 +21,7 @@ app
   .authorizationCode(db.getAuthorizationCode)
   .createAuthorizationCode(db.createAuthorizationCode)
   .invalidateAuthorizationCode(db.invalidateAuthorizationCode)
+  .isValidClientRedirectURI(db.isValidClientRedirectURI);
 
 /**
  * Misc callbacks
