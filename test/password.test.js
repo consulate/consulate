@@ -7,15 +7,15 @@ var pass = require('..').exchanges.password
 
 describe('a password exchange', function() {
   var callbacks = {
-    'userByUsername': function(username, done) {
+    'userByUsername': function(req, username, done) {
       if (username === 'validuser') return done(null, {});
       done(null, null);
     },
-    'verifyPassword': function(user, password, done) {
+    'verifyPassword': function(req, user, password, done) {
       if (password === 'validpass') return done(null, true);
       done(null, false);
     },
-    'issueToken': function(client, user, scope, done) {
+    'issueToken': function(req, client, user, scope, done) {
       done(null, 'some-websafe-token-string');
     }
   }

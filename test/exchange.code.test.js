@@ -10,20 +10,20 @@ describe('a code exchange', function() {
   var invalidatedCodes;
 
   var callbacks = {
-    'authorizationCode': function(code, done) {
+    'authorizationCode': function(req, code, done) {
       var fullCode = {client_id: 'validClientId', user_id: 'validUserId', redirect_uri: 'validRedirectUri'};
       if (~invalidatedCodes.indexOf(code)) return done(null, false);
       if (code === 'validCode') return done(null, fullCode);
       done(null, null);
     },
-    'user': function(userId, done) {
+    'user': function(req, userId, done) {
       if (userId === 'validUserId') return done(null, {});
       done(null, null);
     },
-    'issueToken': function(client, user, scope, done) {
+    'issueToken': function(req, client, user, scope, done) {
       done(null, 'some-websafe-token-string');
     },
-    'invalidateAuthorizationCode': function(code, done) {
+    'invalidateAuthorizationCode': function(req, code, done) {
       invalidatedCodes.push(code);
       done(null);
     }

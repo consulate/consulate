@@ -8,7 +8,7 @@ var codeGrant = require('..').grants.code
 describe('a code grant', function() {
 
   var callbacks = {
-    'createAuthorizationCode': function(client, redirectURI, user, ares, done) {
+    'createAuthorizationCode': function(req, client, redirectURI, user, ares, done) {
       if (client.id === 'validClientId') return done(null, 'validCode');
       done(null, null);
     }
@@ -50,7 +50,7 @@ describe('a code grant', function() {
       res: res,
     };
     res.allow = true;
-    code.response(txn, issues_code(res, done), expect_no_error(done));
+    code.response(txn, req, issues_code(res, done), expect_no_error(done));
   });
 
 });

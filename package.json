@@ -2,13 +2,13 @@
   "name": "consulate",
   "version": "0.1.0",
   "dependencies": {
-    "oauth2orize": "git+https://github.com/timshadel/oauth2orize.git",
+    "oauth2orize": "git+https://github.com/consulate/oauth2orize.git",
     "express": "~3.2.6",
     "startup": "~0.1.12",
     "connect-ensure-login": "~0.1.1",
     "passport-http": "~0.2.2",
     "passport-oauth2-client-password": "~0.1.1",
-    "passport": "~0.1.17",
+    "passport": "git+https://github.com/consulate/passport.git",
     "passport-local": "~0.1.6",
     "passport-oauth2-public-client": "~0.1.0",
     "simple-debug": "~1.1.0"
