@@ -11,7 +11,8 @@
     "passport": "git+https://github.com/consulate/passport.git",
     "passport-local": "~0.1.6",
     "passport-oauth2-public-client": "~0.1.0",
-    "simple-debug": "~1.1.0"
+    "simple-debug": "~1.1.0",
+    "envs": "~0.1.2"
   },
   "devDependencies": {
     "mocha": "~1.9.0",
