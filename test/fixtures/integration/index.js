@@ -34,6 +34,12 @@ app
   .allowedUserScopes(function(user, done) {
     done(null, user.scopes);
   })
+  .userDecision(function(user, client, done) {
+    done(null, null);
+  })
+  .saveUserDecision(function(user, client, decision, done) {
+    done(null);
+  })
   .verifyPassword(function(user, password, done) {
     done(null, password == 'validPass');
   })
