@@ -11,6 +11,18 @@ describe('a code grant', function() {
     'createAuthorizationCode': function(req, client, redirectURI, user, ares, done) {
       if (client.id === 'validClientId') return done(null, 'validCode');
       done(null, null);
+    },
+    'filterScopesByClient': function(req, client, scope, done) {
+      if (!scope) return done(null, ['user']);
+      done(null, scope);
+    },
+    'filterScopesByUser': function(req, user, scope, done) {
+      if (!scope) return done(null, ['user']);
+      done(null, scope);
+    },
+    'defaultClientScopes': function(req, client, done) {
+      if (!client) return done(null, ['user']);
+      done(null, client.scope);
     }
   }
 

@@ -31,8 +31,16 @@ app
   .scopes(function(done) {
     done(null, []);
   })
-  .allowedUserScopes(function(user, done) {
-    done(null, user.scopes);
+  .defaultClientScopes(function(client, done) {
+    done(null, client.scope || client.scopes);
+  })
+  .filterScopesByClient(function(client, scopes, done) {
+    if (!scopes) done(null, ['user']);
+    done(null, scopes);
+  })
+  .filterScopesByUser(function(user, scopes, done) {
+    if (!scopes) done(null, ['user']);
+    done(null, scopes);
   })
   .userDecision(function(user, client, done) {
     done(null, null);

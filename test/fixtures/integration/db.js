@@ -19,8 +19,7 @@ var clients = [
     description: 'A really cool application',
     secret: 'validSecret',
     redirect_uri: ['http://localhost:5000/auth/callback'],
-    scopes: ['user:name', 'user:email'],
-    optional_scopes: ['user:age']
+    scope: ['user:name', 'user:email', 'user:age']
   },
   {
     id: 'publicClient',

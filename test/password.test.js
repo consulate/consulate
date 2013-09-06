@@ -17,6 +17,18 @@ describe('a password exchange', function() {
     },
     'issueToken': function(req, client, user, scope, done) {
       done(null, 'some-websafe-token-string');
+    },
+    'filterScopesByClient': function(req, client, scope, done) {
+      if (!scope) return done(null, ['user']);
+      done(null, scope);
+    },
+    'filterScopesByUser': function(req, user, scope, done) {
+      if (!scope) return done(null, ['user']);
+      done(null, scope);
+    },
+    'defaultClientScopes': function(req, client, done) {
+      if (!client) return done(null, ['user']);
+      done(null, client.scope);
     }
   }
 
