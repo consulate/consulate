@@ -38,7 +38,7 @@ app
     done(null, null);
   })
   .saveUserDecision(function(user, client, decision, done) {
-    done(null);
+    done();
   })
   .verifyPassword(function(user, password, done) {
     done(null, password == 'validPass');
