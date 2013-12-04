@@ -48,7 +48,7 @@ describe('a password exchange', function() {
     return function(err) {
       expect(err).to.be.ok();
       expect(err.code).to.be.ok('invalid_request');
-      expect(err.status).to.be(400);
+      expect(err.status).to.be(403);
       asserts(err);
       done();
     }
@@ -63,7 +63,7 @@ describe('a password exchange', function() {
   function issues_token(res, done) {
     res.done = function() {
       expect(res._data).to.match(/access_token/);
-      expect(res._data).to.match(/bearer/);
+      expect(res._data).to.match(/Bearer/);
       expect(res._data).to.match(/some-websafe-token-string/);
       done();
     }
@@ -78,7 +78,7 @@ describe('a password exchange', function() {
     }
     req.body = { refresh_token: 'badtoken' };
     refreshToken(req, res, invalid_request(done, function(err) {
-      expect(err.message).to.match(/invalid/);
+      expect(err.message).to.match(/Invalid/);
       expect(err.message).to.match(/refresh/);
     }));
   });
@@ -90,7 +90,7 @@ describe('a password exchange', function() {
     req.body = { refresh_token: 'validtoken' };
     req.user = { id: 'invalidclient' };
     refreshToken(req, res, invalid_request(done, function(err) {
-      expect(err.message).to.match(/invalid/);
+      expect(err.message).to.match(/Invalid/);
       expect(err.message).to.match(/refresh/);
     }));
   });

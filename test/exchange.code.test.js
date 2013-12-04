@@ -50,7 +50,7 @@ describe('a code exchange', function() {
     return function(err) {
       expect(err).to.be.ok();
       expect(err.code).to.be('invalid_grant');
-      expect(err.status).to.be(400);
+      expect(err.status).to.be(403);
       asserts(err);
       done();
     }
@@ -65,7 +65,7 @@ describe('a code exchange', function() {
   function issues_token(res, done) {
     res.done = function() {
       expect(res._data).to.match(/access_token/);
-      expect(res._data).to.match(/bearer/);
+      expect(res._data).to.match(/Bearer/);
       expect(res._data).to.match(/some-websafe-token-string/);
       done();
     }
@@ -82,7 +82,7 @@ describe('a code exchange', function() {
     // During exchanges, the "user" is the client app
     req.user = { id: 'validClientId' };
     code(req, res, invalid_request(done, function(err) {
-      expect(err.message).to.match(/invalid/);
+      expect(err.message).to.match(/Invalid/);
       expect(err.message).to.match(/code/);
     }));
   });
@@ -95,7 +95,7 @@ describe('a code exchange', function() {
     // During exchanges, the "user" is the client app
     req.user = { id: 'validClientId' };
     code(req, res, invalid_request(done, function(err) {
-      expect(err.message).to.match(/invalid/);
+      expect(err.message).to.match(/Invalid/);
       expect(err.message).to.match(/code/);
     }));
   });
@@ -106,13 +106,10 @@ describe('a code exchange', function() {
     }
     req.body = { code: 'validCode', redirect_uri: 'validRedirectUri' };
     // During exchanges, the "user" is the client app
-    code(req, res, function(err) {
-      expect(err).to.be.ok();
-      expect(err.code).to.be('invalid_client');
-      expect(err.status).to.be(401);
-      expect(err.message).to.match(/client/);
-      done();
-    });
+    code(req, res, invalid_request(done, function(err) {
+      expect(err.message).to.match(/Invalid/);
+      expect(err.message).to.match(/code/);
+    }));
   });
 
   it('should not accept codes from a different client app than the one to which they were issued', function(done) {
@@ -123,7 +120,7 @@ describe('a code exchange', function() {
     // During exchanges, the "user" is the client app
     req.user = { id: 'otherClientId' };
     code(req, res, invalid_request(done, function(err) {
-      expect(err.message).to.match(/invalid/);
+      expect(err.message).to.match(/Invalid/);
       expect(err.message).to.match(/code/);
     }));
   });
@@ -136,7 +133,7 @@ describe('a code exchange', function() {
     req.user = { id: 'validClientId' };
     code(req, issues_token(res, function() {
       code(req, res, invalid_request(done, function(err) {
-        expect(err.message).to.match(/invalid/);
+        expect(err.message).to.match(/Invalid/);
         expect(err.message).to.match(/code/);
       }));
     }), expect_no_error(done));
