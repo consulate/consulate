@@ -7,7 +7,7 @@ var pass = require('..').exchanges.password
 
 describe('a password exchange', function() {
   var callbacks = {
-    'userByUsername': function(req, username, done) {
+    'getUserByUsername': function(req, username, done) {
       if (username === 'validuser') return done(null, {});
       done(null, null);
     },
@@ -21,7 +21,7 @@ describe('a password exchange', function() {
     'createRefreshToken': function(req, client, user, scope, done) {
       done(null);
     },
-    'additionalParams': function(req, type, client, user, scope, done) {
+    'getAdditionalParams': function(req, type, client, user, scope, done) {
       done(null);
     }
   }

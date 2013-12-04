@@ -15,26 +15,26 @@ var app = module.exports = consulate({session: {
  */
 
 app
-  .user(db.getUser)
-  .userByUsername(db.getUserByUsername)
-  .client(db.getClient)
-  .authorizationCode(db.getAuthorizationCode)
+  .getUser(db.getUser)
+  .getUserByUsername(db.getUserByUsername)
+  .getClient(db.getClient)
+  .getAuthorizationCode(db.getAuthorizationCode)
   .createAuthorizationCode(db.createAuthorizationCode)
   .invalidateAuthorizationCode(db.invalidateAuthorizationCode)
-  .isValidClientRedirectURI(db.isValidClientRedirectURI);
+  .verifyClientRedirectURI(db.isValidClientRedirectURI);
 
 /**
  * Misc callbacks
  */
 
 app
-  .scopes(function(done) {
+  .getScopes(function(done) {
     done(null, []);
   })
-  .allowedUserScopes(function(user, done) {
+  .getAllowedUserScopes(function(user, done) {
     done(null, user.scopes);
   })
-  .userDecision(function(user, client, done) {
+  .getUserDecision(function(user, client, done) {
     done(null, null);
   })
   .saveUserDecision(function(user, client, decision, done) {
@@ -50,7 +50,7 @@ app
       scope: scope
     }));
   })
-  .refreshToken(function(refreshToken, done) {
+  .getRefreshToken(function(refreshToken, done) {
     done(null, {
       client_id: 'validClient',
       user_id: 'user1'

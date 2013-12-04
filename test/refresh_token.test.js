@@ -12,11 +12,11 @@ describe('a password exchange', function() {
     'issueToken': function(req, client, user, scope, done) {
       done(null, 'some-websafe-token-string');
     },
-    'user': function(req, userId, done) {
+    'getUser': function(req, userId, done) {
       if (userId === 'user123') return done(null, {});
       done(null, null);
     },
-    'refreshToken': function(req, refreshToken, done) {
+    'getRefreshToken': function(req, refreshToken, done) {
       if (refreshToken === 'badtoken') return done(null, false);
       done(null, {
         client_id: 'validclient',
@@ -26,7 +26,7 @@ describe('a password exchange', function() {
     'createRefreshToken': function(req, client, user, scope, done) {
       done(null);
     },
-    'additionalParams': function(req, type, client, user, scope, done) {
+    'getAdditionalParams': function(req, type, client, user, scope, done) {
       done(null);
     },
     'invalidateRefreshToken': function(req, refreshToken, done) {

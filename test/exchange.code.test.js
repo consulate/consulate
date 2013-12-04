@@ -10,13 +10,13 @@ describe('a code exchange', function() {
   var invalidatedCodes;
 
   var callbacks = {
-    'authorizationCode': function(req, code, done) {
+    'getAuthorizationCode': function(req, code, done) {
       var fullCode = {client_id: 'validClientId', user_id: 'validUserId', redirect_uri: 'validRedirectUri'};
       if (~invalidatedCodes.indexOf(code)) return done(null, false);
       if (code === 'validCode') return done(null, fullCode);
       done(null, null);
     },
-    'user': function(req, userId, done) {
+    'getUser': function(req, userId, done) {
       if (userId === 'validUserId') return done(null, {});
       done(null, null);
     },
@@ -30,7 +30,7 @@ describe('a code exchange', function() {
     'createRefreshToken': function(req, client, user, scope, done) {
       done(null);
     },
-    'additionalParams': function(req, type, client, user, scope, done) {
+    'getAdditionalParams': function(req, type, client, user, scope, done) {
       done(null);
     }
   }
