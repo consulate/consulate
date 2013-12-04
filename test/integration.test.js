@@ -1,6 +1,7 @@
 /**
  * Module dependencies
  */
+
 var expect = require('expect.js')
   , app = require('./fixtures/integration')
   , request = require('supertest')

@@ -61,6 +61,9 @@ app
   })
   .invalidateRefreshToken(function(refreshToken, done) {
     done();
+  })
+  .getAdditionalParams(function(type, client, user, scope, done) {
+    done();
   });
 
 /**
