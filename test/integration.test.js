@@ -24,6 +24,7 @@ describe('consulate integration', function() {
           if (err) return done(err);
           if (res.error) return done(new Error(res.text));
           expect(res.body.access_token).to.be.ok();
+          expect(res.body.refresh_token).to.be.ok();
           done();
         });
     });
@@ -41,6 +42,7 @@ describe('consulate integration', function() {
           if (err) return done(err);
           if (res.error) return done(new Error(res.text));
           expect(res.body.access_token).to.be.ok();
+          expect(res.body.refresh_token).to.be.ok();
           done();
         });
     });
@@ -58,6 +60,24 @@ describe('consulate integration', function() {
         if (err) return done(err);
         if (res.error) return done(new Error(res.text));
         expect(res.body.access_token).to.be.ok();
+        expect(res.body.refresh_token).to.be.ok();
+        done();
+      });
+  });
+
+  it('should support a refresh token exchange', function(done) {
+    var client_id = 'validClient'
+      , client_secret = 'validSecret';
+
+    request(app)
+      .post('/token')
+      .auth(client_id, client_secret)
+      .send({grant_type: 'refresh_token', refresh_token: 'validRefreshToken'})
+      .end(function(err, res) {
+        if (err) return done(err);
+        if (res.error) return done(new Error(res.text));
+        expect(res.body.access_token).to.be.ok();
+        expect(res.body.refresh_token).to.be.ok();
         done();
       });
   });
