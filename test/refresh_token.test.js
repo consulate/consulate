@@ -1,35 +1,43 @@
+/**
+ * Module dependencies
+ */
 
-var pass = require('..').exchanges.password
-  , expect = require('expect.js')
-  , MockRequest = require('./mocks').MockRequest
-  , MockResponse = require('./mocks').MockResponse;
-
+var rt = require('..').exchanges.refresh_token;
+var expect = require('expect.js');
+var MockRequest = require('./mocks').MockRequest;
+var MockResponse = require('./mocks').MockResponse;
 
 describe('a password exchange', function() {
   var callbacks = {
-    'userByUsername': function(req, username, done) {
-      if (username === 'validuser') return done(null, {});
-      done(null, null);
-    },
-    'verifyPassword': function(req, user, password, done) {
-      if (password === 'validpass') return done(null, true);
-      done(null, false);
-    },
     'issueToken': function(req, client, user, scope, done) {
       done(null, 'some-websafe-token-string');
+    },
+    'user': function(req, userId, done) {
+      if (userId === 'user123') return done(null, {});
+      done(null, null);
+    },
+    'refreshToken': function(req, refreshToken, done) {
+      if (refreshToken === 'badtoken') return done(null, false);
+      done(null, {
+        client_id: 'validclient',
+        user_id: 'user123'
+      });
     },
     'createRefreshToken': function(req, client, user, scope, done) {
       done(null);
     },
     'additionalParams': function(req, type, client, user, scope, done) {
       done(null);
+    },
+    'invalidateRefreshToken': function(req, refreshToken, done) {
+      done();
     }
-  }
+  };
 
-  var password, req, res;
+  var refreshToken, req, res;
 
   beforeEach(function() {
-    password = pass(function(name) {
+    refreshToken = rt(function(name) {
       return callbacks[name];
     });
     req = new MockRequest();
@@ -64,31 +72,33 @@ describe('a password exchange', function() {
 
   // NOTE: Missing params are covered by oauth2orize. We deal with data lookups, and test those.
 
-  it('should not accept a bad username', function(done) {
+  it('should not accept a refresh token', function(done) {
     res.done = function() {
       done(new Error('should not be called. Error: ' + err));
     }
-    req.body = { username: 'baduser', password: 'validpass' };
-    password(req, res, invalid_request(done, function(err) {
+    req.body = { refresh_token: 'badtoken' };
+    refreshToken(req, res, invalid_request(done, function(err) {
       expect(err.message).to.match(/invalid/);
-      expect(err.message).to.match(/cred/);
+      expect(err.message).to.match(/refresh/);
     }));
   });
 
-  it('should not accept a bad password', function(done) {
+  it('should not accept a refresh token from a client mismatch', function(done) {
     res.done = function() {
-      done(new Error('should not be called'));
+      done(new Error('should not be called. Error: ' + err));
     }
-    req.body = { username: 'validuser', password: 'badpass' };
-    password(req, res, invalid_request(done, function(err) {
+    req.body = { refresh_token: 'validtoken' };
+    req.user = { id: 'invalidclient' };
+    refreshToken(req, res, invalid_request(done, function(err) {
       expect(err.message).to.match(/invalid/);
-      expect(err.message).to.match(/cred/);
+      expect(err.message).to.match(/refresh/);
     }));
   });
 
-  it('should accept a good username and password combination', function(done) {
-    req.body = { username: 'validuser', password: 'validpass' };
-    password(req, issues_token(res, done), expect_no_error(done));
+  it('should accept a good refresh token', function(done) {
+    req.body = { refresh_token: 'validtoken' };
+    req.user = { id: 'validclient' };
+    refreshToken(req, issues_token(res, done), expect_no_error(done));
   });
 
 });

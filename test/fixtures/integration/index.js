@@ -45,10 +45,22 @@ app
   })
   .issueToken(function(client, user, scope, done) {
     done(null, JSON.stringify({
-      client: client,
-      user: user,
+      client: client.id,
+      user: (user || {}).id,
       scope: scope
     }));
+  })
+  .refreshToken(function(refreshToken, done) {
+    done(null, {
+      client_id: 'validClient',
+      user_id: 'user1'
+    });
+  })
+  .createRefreshToken(function(client, user, scope, done) {
+    done(null, 'new-refresh-token');
+  })
+  .invalidateRefreshToken(function(refreshToken, done) {
+    done();
   });
 
 /**
