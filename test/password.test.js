@@ -15,14 +15,8 @@ describe('a password exchange', function() {
       if (password === 'validpass') return done(null, true);
       done(null, false);
     },
-    'issueToken': function(req, client, user, scope, done) {
+    'issueTokens': function(req, type, client, user, scope, done) {
       done(null, 'some-websafe-token-string');
-    },
-    'createRefreshToken': function(req, client, user, scope, done) {
-      done(null);
-    },
-    'getAdditionalParams': function(req, type, client, user, scope, done) {
-      done(null);
     }
   }
 

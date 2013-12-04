@@ -20,17 +20,11 @@ describe('a code exchange', function() {
       if (userId === 'validUserId') return done(null, {});
       done(null, null);
     },
-    'issueToken': function(req, client, user, scope, done) {
-      done(null, 'some-websafe-token-string');
+    'issueTokens': function(req, type, client, user, scope, done) {
+      done(null, 'some-websafe-token-string', 'valid-refresh-token');
     },
     'invalidateAuthorizationCode': function(req, code, done) {
       invalidatedCodes.push(code);
-      done(null);
-    },
-    'createRefreshToken': function(req, client, user, scope, done) {
-      done(null);
-    },
-    'getAdditionalParams': function(req, type, client, user, scope, done) {
       done(null);
     }
   }
@@ -67,6 +61,8 @@ describe('a code exchange', function() {
       expect(res._data).to.match(/access_token/);
       expect(res._data).to.match(/Bearer/);
       expect(res._data).to.match(/some-websafe-token-string/);
+      expect(res._data).to.match(/refresh_token/);
+      expect(res._data).to.match(/valid-refresh-token/);
       done();
     }
     return res;

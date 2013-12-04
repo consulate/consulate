@@ -9,9 +9,6 @@ var MockResponse = require('./mocks').MockResponse;
 
 describe('a password exchange', function() {
   var callbacks = {
-    'issueToken': function(req, client, user, scope, done) {
-      done(null, 'some-websafe-token-string');
-    },
     'getUser': function(req, userId, done) {
       if (userId === 'user123') return done(null, {});
       done(null, null);
@@ -23,11 +20,8 @@ describe('a password exchange', function() {
         user_id: 'user123'
       });
     },
-    'createRefreshToken': function(req, client, user, scope, done) {
-      done(null);
-    },
-    'getAdditionalParams': function(req, type, client, user, scope, done) {
-      done(null);
+    'issueTokens': function(req, type, client, user, scope, done) {
+      done(null, 'some-websafe-token-string', 'valid-refresh-token');
     },
     'invalidateRefreshToken': function(req, refreshToken, done) {
       done();
@@ -65,6 +59,8 @@ describe('a password exchange', function() {
       expect(res._data).to.match(/access_token/);
       expect(res._data).to.match(/Bearer/);
       expect(res._data).to.match(/some-websafe-token-string/);
+      expect(res._data).to.match(/refresh_token/);
+      expect(res._data).to.match(/valid-refresh-token/);
       done();
     }
     return res;
