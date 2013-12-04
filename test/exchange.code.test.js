@@ -26,6 +26,12 @@ describe('a code exchange', function() {
     'invalidateAuthorizationCode': function(req, code, done) {
       invalidatedCodes.push(code);
       done(null);
+    },
+    'createRefreshToken': function(req, client, user, scope, done) {
+      done(null);
+    },
+    'additionalParams': function(req, type, client, user, scope, done) {
+      done(null);
     }
   }
 
