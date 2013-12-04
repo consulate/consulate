@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "oauth2orize": "git+https://github.com/consulate/oauth2orize.git",
-    "express": "~3.2.6",
-    "startup": "~0.1.12",
+    "express": "~3.4.6",
     "connect-ensure-login": "~0.1.1",
     "passport-http": "~0.2.2",
     "passport-oauth2-client-password": "~0.1.1",
